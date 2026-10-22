@@ -16,7 +16,7 @@
 	// Short-lived cache for upstream job-board responses.
 	// Placeholder id: `wrangler dev` uses local KV; before deploying, run
 	// `npx wrangler kv namespace create CACHE` and paste the returned id here.
-	"kv_namespaces": [{ "binding": "CACHE", "id": "REPLACE_WITH_KV_NAMESPACE_ID" }],
+	"kv_namespaces": [{ "binding": "CACHE", "id": "68aabac631884a97beec9d24aeed7da7" }],
 	"vars": {
 		// Lifetime of cached job listings / job details (seconds, KV minimum is 60).
 		"CACHE_TTL_SECONDS": "600",

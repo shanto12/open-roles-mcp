@@ -1,5 +1,5 @@
-Open Roles MCP e2e — 2026-10-22T19:57:28.265Z
-Server: http://localhost:8787/mcp
+Open Roles MCP e2e — 2026-10-22T20:59:30.360Z
+Server: https://open-roles-mcp.shantomathew.workers.dev/mcp
 Connected to open-roles 0.1.0
 
 Tools (5):
@@ -12,30 +12,33 @@ PASS  all 5 tools are listed
 PASS  every tool is annotated read-only
 
 >>> find_job_board {"company_or_domain":"Anthropic"}
-<<< (14 ms)
+<<< (1319 ms)
 {
   "query": "Anthropic",
   "board": "greenhouse:anthropic",
   "provider": "greenhouse",
   "slug": "anthropic",
   "company": "Anthropic",
-  "open_jobs": 679,
+  "open_jobs": 681,
   "careers_url": "https://job-boards.greenhouse.io/anthropic",
   "confidence": "high",
   "tried": [
     "anthropic"
+  ],
+  "notes": [
+    "workable:anthropic could not be checked (apply.workable.com is rate limiting requests; try again shortly)."
   ]
 }
 PASS  find_job_board returns a board id (greenhouse:anthropic)
-PASS  board has open jobs (679)
+PASS  board has open jobs (681)
 
 >>> list_jobs {"board":"greenhouse:anthropic","keyword":"engineer","department":"engineering","remote":true}
-<<< (802 ms)
+<<< (134 ms)
 {
   "board": "greenhouse:anthropic",
   "company": "Anthropic",
   "careers_url": "https://job-boards.greenhouse.io/anthropic",
-  "data_fetched_at": "2026-10-22T19:57:28.804Z",
+  "data_fetched_at": "2026-10-22T20:59:32.770Z",
   "total_jobs": 681,
   "matched": 14,
   "returned": 14,
@@ -81,7 +84,7 @@ PASS  every job is remote
 PASS  every job has an id and url
 
 >>> get_job {"board":"greenhouse:anthropic","job_id":"5456453008"}
-<<< (106 ms)
+<<< (614 ms)
 {
   "board": "greenhouse:anthropic",
   "id": "5456453008",
@@ -106,7 +109,7 @@ PASS  apply_url present (https://job-boards.greenhouse.io/anthropic/jobs/5456453
       pay: ["Annual Salary: $405,000 – $485,000 USD"]
 
 >>> search_jobs {"companies":["Anthropic","linear.app"],"keyword":"engineer","remote":true,"limit_per_company":3}
-<<< (156 ms)
+<<< (625 ms)
 {
   "filters": {
     "keyword": "engineer",
@@ -121,7 +124,7 @@ PASS  apply_url present (https://job-boards.greenhouse.io/anthropic/jobs/5456453
       "company": "Anthropic",
       "careers_url": "https://job-boards.greenhouse.io/anthropic",
       "match_confidence": "high",
-      "data_fetched_at": "2026-10-22T19:57:28.804Z",
+      "data_fetched_at": "2026-10-22T20:59:32.770Z",
       "total_jobs": 681,
       "matched": 34,
       "jobs": [
@@ -153,7 +156,7 @@ PASS  search_jobs resolved every company (greenhouse:anthropic, ashby:linear)
 PASS  search_jobs found matches (43)
 
 >>> whats_new {"companies":["greenhouse:anthropic"],"since":"2026-10-08","limit_per_company":5}
-<<< (11 ms)
+<<< (118 ms)
 {
   "since": "2026-10-08T00:00:00.000Z",
   "results": [
@@ -162,10 +165,30 @@ PASS  search_jobs found matches (43)
       "board": "greenhouse:anthropic",
       "company": "Anthropic",
       "careers_url": "https://job-boards.greenhouse.io/anthropic",
-      "data_fetched_at": "2026-10-22T19:57:28.804Z",
-      "new": 100,
+      "data_fetched_at": "2026-10-22T20:59:32.770Z",
+      "new": 102,
       "updated": 78,
       "jobs": [
+        {
+          "change": "new",
+          "id": "5461663008",
+          "title": "Enterprise Account Executive, Federal Civilian Sales - Federal Financials",
+          "location": "Washington, DC",
+          "department": "Sales",
+          "workplace": "onsite",
+          "posted": "2026-10-22",
+          "url": "https://job-boards.greenhouse.io/anthropic/jobs/5461663008"
+        },
+        {
+          "change": "new",
+          "id": "5443997008",
+          "title": "Technical Editor",
+          "location": "San Francisco, CA | New York City, NY",
+          "department": "Communications",
+          "workplace": "onsite",
+          "posted": "2026-10-22",
+          "url": "https://job-boards.greenhouse.io/anthropic/jobs/5443997008"
+        },
         {
           "change": "new",
           "id": "5451768008",
@@ -178,46 +201,27 @@ PASS  search_jobs found matches (43)
         },
         {
           "change": "new",
-          "id": "5461534008",
-          "title": "Communications Manager, The Anthropic Institute",
-          "location": "San Francisco, CA | New York City, NY",
-          "department": "Communications",
-          "workplace": "remote",
-          "posted": "2026-10-22",
-          "url": "https://job-boards.greenhouse.io/anthropic/jobs/5461534008"
-        },
-        {
-          "change": "new",
-          "id": "5460521008",
-          "title": "Regional Research Economist, Economic Research",
-          "location": "Tokyo, Japan",
-          "department": "Public Benefit",
-          "workplace": "onsite",
-          "posted": "2026-10-22",
-          "url": "https://job-boards.greenhouse.io/anthropic/jobs/5460521008"
-        },
-        {
-          "change
-… [765 more chars]
-PASS  whats_new reports 100 new / 78 updated since 2026-10-08
+ 
+… [769 more chars]
+PASS  whats_new reports 102 new / 78 updated since 2026-10-08
 PASS  whats_new jobs are on/after the date
 
 >>> get_job {"board":"greenhouse:anthropic","job_id":"1"}
-<<< ERROR (56 ms)
+<<< ERROR (304 ms)
 Job "1" was not found on greenhouse:anthropic. It may have closed, or the id belongs to another board; use list_jobs to see current openings.
 PASS  unknown job id -> isError
 
 >>> list_jobs {"board":"greenhouse:zz-no-such-board-zz"}
-<<< ERROR (168 ms)
+<<< ERROR (263 ms)
 No greenhouse board named "zz-no-such-board-zz" exists. Use find_job_board to look up the right board.
 PASS  unknown board -> isError
 
 >>> list_jobs {"board":"lever:palantir","limit":2}
-<<< (445 ms)
+<<< (797 ms)
 {
   "board": "lever:palantir",
   "careers_url": "https://jobs.lever.co/palantir",
-  "data_fetched_at": "2026-10-22T19:57:30.068Z",
+  "data_fetched_at": "2026-10-22T20:59:35.796Z",
   "total_jobs": 299,
   "matched": 299,
   "returned": 2,
@@ -271,7 +275,7 @@ PASS  unknown board -> isError
 PASS  Lever: list_jobs lever:palantir (299 jobs)
 
 >>> get_job {"board":"lever:palantir","job_id":"3e59369e-1392-42f2-8d03-86648e87e963"}
-<<< (501 ms)
+<<< (554 ms)
 {
   "board": "lever:palantir",
   "id": "3e59369e-1392-42f2-8d03-86648e87e963",
@@ -291,11 +295,11 @@ PASS  Lever: list_jobs lever:palantir (299 jobs)
 PASS  Lever: get_job 3e59369e-1392-42f2-8d03-86648e87e963
 
 >>> list_jobs {"board":"ashby:linear","limit":2}
-<<< (12 ms)
+<<< (134 ms)
 {
   "board": "ashby:linear",
   "careers_url": "https://jobs.ashbyhq.com/linear",
-  "data_fetched_at": "2026-10-22T19:57:29.502Z",
+  "data_fetched_at": "2026-10-22T20:59:34.461Z",
   "total_jobs": 34,
   "matched": 34,
   "returned": 2,
@@ -333,7 +337,7 @@ PASS  Lever: get_job 3e59369e-1392-42f2-8d03-86648e87e963
 PASS  Ashby: list_jobs ashby:linear (34 jobs)
 
 >>> get_job {"board":"ashby:linear","job_id":"41b3ed5c-f7a0-40b7-8a77-4952868c3d47"}
-<<< (65 ms)
+<<< (462 ms)
 {
   "board": "ashby:linear",
   "id": "41b3ed5c-f7a0-40b7-8a77-4952868c3d47",
@@ -351,63 +355,8 @@ PASS  Ashby: list_jobs ashby:linear (34 jobs)
 PASS  Ashby: get_job 41b3ed5c-f7a0-40b7-8a77-4952868c3d47
 
 >>> list_jobs {"board":"workable:huggingface","limit":2}
-<<< (200 ms)
-{
-  "board": "workable:huggingface",
-  "company": "Hugging Face",
-  "careers_url": "https://apply.workable.com/huggingface/",
-  "data_fetched_at": "2026-10-22T19:57:30.967Z",
-  "total_jobs": 6,
-  "matched": 6,
-  "returned": 2,
-  "next_offset": 2,
-  "departments": {
-    "Open Source": 2,
-    "Product": 2,
-    "Science": 1,
-    "Wild Card": 1
-  },
-  "jobs": [
-    {
-      "id": "DB4D7C0EC8",
-      "title": "Senior Open-Source Python Engineer, ML Developer Tools - EMEA Remote",
-      "location": "France",
-      "department": "Product",
-      "workplace": "remote",
-      "type": "Full-time",
-      "posted": "2026-09-21",
-      "url": "https://apply.workable.com/huggingface/j/DB4D7C0EC8/"
-    },
-    {
-      "id": "F88446C814",
-      "title": "Senior Open-Source Python Engineer, ML Developer Tools - US Remote",
-      "location": "United States",
-      "department": "Product",
-      "workplace": "remote",
-      "type": "Full-time",
-      "posted": "2026-09-21",
-      "url": "https://apply.workable.com/huggingface/j/F88446C814/"
-    }
-  ]
-}
-PASS  Workable: list_jobs workable:huggingface (6 jobs)
+<<< ERROR (253 ms)
+Job board request failed: apply.workable.com is rate limiting requests; try again shortly. Try again shortly.
+WARN  Workable: list_jobs workable:huggingface (0 jobs)
 
->>> get_job {"board":"workable:huggingface","job_id":"DB4D7C0EC8"}
-<<< (170 ms)
-{
-  "board": "workable:huggingface",
-  "id": "DB4D7C0EC8",
-  "title": "Senior Open-Source Python Engineer, ML Developer Tools - EMEA Remote",
-  "company": "Hugging Face",
-  "location": "France",
-  "department": "Product",
-  "employment_type": "Full-time",
-  "workplace": "remote",
-  "posted": "2026-09-21",
-  "url": "https://apply.workable.com/huggingface/j/DB4D7C0EC8/",
-  "apply_url": "https://apply.workable.com/huggingface/j/DB4D7C0EC8/apply/",
-  "description": "At Hugging Face, we're on a journey to democratize good AI. We are building the fastest growing platform for AI builders with over 11 million users who collectively shared over 4 million models, 1 million datasets & 1.5 million Gradio apps. Our open-source libraries have more than 700,000 stars on Github.\n\nAbout the Role\n\nRoles at Hugging Face are very fluid and dynamic — we are looking for someone who is comfortable taking on different challenges that will evolve over time.\n\nYou'll join the Applications team, whose goal is to build the tooling that helps developers create machine learning applications on top of the primitives we offer on the Hub: Gradio, Spaces, Inference Providers, Datasets, Xet, and more. Concretely, that means maintaining and growing libraries like Trackio, a local-first, agent-friendly experiment tracking platform, FastRTC, our library for real-time audio and video streaming in Python, and Gradio itself, used by more than 1 million developers each month. These tools have made machine learni
-… [4820 more chars]
-PASS  Workable: get_job DB4D7C0EC8
-
-Result: PASSED
+Result: PASSED, 1 warnings
