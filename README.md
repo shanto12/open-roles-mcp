@@ -1,4 +1,4 @@
-<p align="center"><img src="public/logo.png" alt="Open Roles" width="128" height="128"></p>
+<p align="center"><img src="https://open-roles-mcp.shantomathew.workers.dev/logo.png" alt="Open Roles" width="128" height="128"></p>
 
 # Open Roles
 
