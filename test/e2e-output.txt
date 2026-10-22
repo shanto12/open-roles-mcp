@@ -1,0 +1,413 @@
+Open Roles MCP e2e — 2026-10-22T19:57:28.265Z
+Server: http://localhost:8787/mcp
+Connected to open-roles 0.1.0
+
+Tools (5):
+  - find_job_board(company_or_domain) readOnly=true
+  - list_jobs(board, keyword?, location?, remote?, department?, limit?, offset?) readOnly=true
+  - get_job(board, job_id) readOnly=true
+  - search_jobs(companies, keyword, location?, remote?, limit_per_company?) readOnly=true
+  - whats_new(companies, since, keyword?, limit_per_company?) readOnly=true
+PASS  all 5 tools are listed
+PASS  every tool is annotated read-only
+
+>>> find_job_board {"company_or_domain":"Anthropic"}
+<<< (14 ms)
+{
+  "query": "Anthropic",
+  "board": "greenhouse:anthropic",
+  "provider": "greenhouse",
+  "slug": "anthropic",
+  "company": "Anthropic",
+  "open_jobs": 679,
+  "careers_url": "https://job-boards.greenhouse.io/anthropic",
+  "confidence": "high",
+  "tried": [
+    "anthropic"
+  ]
+}
+PASS  find_job_board returns a board id (greenhouse:anthropic)
+PASS  board has open jobs (679)
+
+>>> list_jobs {"board":"greenhouse:anthropic","keyword":"engineer","department":"engineering","remote":true}
+<<< (802 ms)
+{
+  "board": "greenhouse:anthropic",
+  "company": "Anthropic",
+  "careers_url": "https://job-boards.greenhouse.io/anthropic",
+  "data_fetched_at": "2026-10-22T19:57:28.804Z",
+  "total_jobs": 681,
+  "matched": 14,
+  "returned": 14,
+  "filters": {
+    "keyword": "engineer",
+    "remote": true,
+    "department": "engineering"
+  },
+  "departments": {
+    "AI Research & Engineering": 6,
+    "Software Engineering - Infrastructure": 6,
+    "Engineering & Design - Product": 2
+  },
+  "jobs": [
+    {
+      "id": "5456453008",
+      "title": "Staff+ Software Engineer, Memory & Search",
+      "location": "New York City, NY; New York City, NY | Seattle, WA; Remote-Friendly, United States; San Francisco, CA | New York City, NY | Seattle, WA",
+      "department": "Software Engineering - Infrastructure",
+      "workplace": "remote",
+      "posted": "2026-10-19",
+      "url": "https://job-boards.greenhouse.io/anthropic/jobs/5456453008"
+    },
+    {
+      "id": "5435665008",
+      "title": "Senior+ Software Engineer, Legal Tech",
+      "location": "Remote-Friendly (Travel-Required) | San Francisco, CA | Seattle, WA | New York City, NY",
+      "department": "Software Engineering - Infrastructure",
+      "workplace": "remote",
+      "posted": "2026-09-28",
+      "url": "https://job-boards.greenhouse.io/anthropic/jobs/5435665008"
+    },
+    {
+      "id": "5385998008",
+      "title": "Staff + Senior Software Engineer, Inference",
+      "location": "Ontario, CAN",
+      "department": "Software Engi
+… [4313 more chars]
+PASS  list_jobs returns matches (14 of 681)
+PASS  every title matches keyword 'engineer'
+PASS  every job is in an engineering department/team
+PASS  every job is remote
+PASS  every job has an id and url
+
+>>> get_job {"board":"greenhouse:anthropic","job_id":"5456453008"}
+<<< (106 ms)
+{
+  "board": "greenhouse:anthropic",
+  "id": "5456453008",
+  "title": "Staff+ Software Engineer, Memory & Search",
+  "company": "Anthropic",
+  "location": "New York City, NY; New York City, NY | Seattle, WA; Remote-Friendly, United States; San Francisco, CA | New York City, NY | Seattle, WA",
+  "department": "Software Engineering - Infrastructure",
+  "workplace": "remote",
+  "posted": "2026-10-19",
+  "updated": "2026-10-19",
+  "pay": [
+    "Annual Salary: $405,000 – $485,000 USD"
+  ],
+  "pay_notes": "The annual compensation range for this role is listed below.\n\nFor sales roles, the range provided is the role’s On Target Earnings (\"OTE\") range, meaning that the range includes both the sales commissions/sales bonuses target and annual base salary for the role.",
+  "url": "https://job-boards.greenhouse.io/anthropic/jobs/5456453008",
+  "apply_url": "https://job-boards.greenhouse.io/anthropic/jobs/5456453008",
+  "description": "About Anthropic\n\nAnthropic’s mission is to create reliable, interpretable, and steerable AI systems. We want AI to be safe and beneficial for our users and for society as a whole. Our team is a quickly growing group of committed researchers, engineers, policy experts, and business leaders working together to build beneficial AI systems.\n\nAbout the role\n\nAnthropic is looking for Software Engineers to join the Memory & Search team. We own how Claude remembers you and how it finds what it needs, across Claude.ai, Cowork and Claude Code. That spans th
+… [8534 more chars]
+PASS  get_job returns the same job (Staff+ Software Engineer, Memory & Search)
+PASS  description is plain text (8991 chars)
+PASS  apply_url present (https://job-boards.greenhouse.io/anthropic/jobs/5456453008)
+      pay: ["Annual Salary: $405,000 – $485,000 USD"]
+
+>>> search_jobs {"companies":["Anthropic","linear.app"],"keyword":"engineer","remote":true,"limit_per_company":3}
+<<< (156 ms)
+{
+  "filters": {
+    "keyword": "engineer",
+    "remote": true
+  },
+  "companies_searched": 2,
+  "total_matched": 43,
+  "results": [
+    {
+      "query": "Anthropic",
+      "board": "greenhouse:anthropic",
+      "company": "Anthropic",
+      "careers_url": "https://job-boards.greenhouse.io/anthropic",
+      "match_confidence": "high",
+      "data_fetched_at": "2026-10-22T19:57:28.804Z",
+      "total_jobs": 681,
+      "matched": 34,
+      "jobs": [
+        {
+          "id": "5456018008",
+          "title": "IT Systems Engineer, Client Platform Engineer, ChromeOS",
+          "location": "Boston, MA; Remote-Friendly (Travel-Required) | San Francisco, CA | Seattle, WA | New York City, NY; Washington, DC",
+          "department": "Security",
+          "workplace": "remote",
+          "posted": "2026-10-19",
+          "url": "https://job-boards.greenhouse.io/anthropic/jobs/5456018008"
+        },
+        {
+          "id": "5456453008",
+          "title": "Staff+ Software Engineer, Memory & Search",
+          "location": "New York City, NY; New York City, NY | Seattle, WA; Remote-Friendly, United States; San Francisco, CA | New York City, NY | Seattle, WA",
+          "department": "Software Engineering - Infrastructure",
+          "workplace": "remote",
+          "posted": "2026-10-19",
+          "url": "https://job-boards.greenhouse.io/anthropic/jobs/5456453008"
+        },
+        {
+          "id": "5450479008",
+          "title": "IT Systems Engineer, M&A",
+          "location": "B
+… [1864 more chars]
+PASS  search_jobs returns one result per company
+PASS  search_jobs resolved every company (greenhouse:anthropic, ashby:linear)
+PASS  search_jobs found matches (43)
+
+>>> whats_new {"companies":["greenhouse:anthropic"],"since":"2026-10-08","limit_per_company":5}
+<<< (11 ms)
+{
+  "since": "2026-10-08T00:00:00.000Z",
+  "results": [
+    {
+      "query": "greenhouse:anthropic",
+      "board": "greenhouse:anthropic",
+      "company": "Anthropic",
+      "careers_url": "https://job-boards.greenhouse.io/anthropic",
+      "data_fetched_at": "2026-10-22T19:57:28.804Z",
+      "new": 100,
+      "updated": 78,
+      "jobs": [
+        {
+          "change": "new",
+          "id": "5451768008",
+          "title": "Corporate Accounting",
+          "location": "San Francisco, CA | Seattle, WA",
+          "department": "Finance",
+          "workplace": "onsite",
+          "posted": "2026-10-22",
+          "url": "https://job-boards.greenhouse.io/anthropic/jobs/5451768008"
+        },
+        {
+          "change": "new",
+          "id": "5461534008",
+          "title": "Communications Manager, The Anthropic Institute",
+          "location": "San Francisco, CA | New York City, NY",
+          "department": "Communications",
+          "workplace": "remote",
+          "posted": "2026-10-22",
+          "url": "https://job-boards.greenhouse.io/anthropic/jobs/5461534008"
+        },
+        {
+          "change": "new",
+          "id": "5460521008",
+          "title": "Regional Research Economist, Economic Research",
+          "location": "Tokyo, Japan",
+          "department": "Public Benefit",
+          "workplace": "onsite",
+          "posted": "2026-10-22",
+          "url": "https://job-boards.greenhouse.io/anthropic/jobs/5460521008"
+        },
+        {
+          "change
+… [765 more chars]
+PASS  whats_new reports 100 new / 78 updated since 2026-10-08
+PASS  whats_new jobs are on/after the date
+
+>>> get_job {"board":"greenhouse:anthropic","job_id":"1"}
+<<< ERROR (56 ms)
+Job "1" was not found on greenhouse:anthropic. It may have closed, or the id belongs to another board; use list_jobs to see current openings.
+PASS  unknown job id -> isError
+
+>>> list_jobs {"board":"greenhouse:zz-no-such-board-zz"}
+<<< ERROR (168 ms)
+No greenhouse board named "zz-no-such-board-zz" exists. Use find_job_board to look up the right board.
+PASS  unknown board -> isError
+
+>>> list_jobs {"board":"lever:palantir","limit":2}
+<<< (445 ms)
+{
+  "board": "lever:palantir",
+  "careers_url": "https://jobs.lever.co/palantir",
+  "data_fetched_at": "2026-10-22T19:57:30.068Z",
+  "total_jobs": 299,
+  "matched": 299,
+  "returned": 2,
+  "next_offset": 2,
+  "departments": {
+    "Dev": 89,
+    "Delta": 56,
+    "Echo": 32,
+    "Information Security": 16,
+    "Legal": 15,
+    "Finance": 14,
+    "Design": 13,
+    "Business Development": 12,
+    "Product Development": 11,
+    "Administrative": 6,
+    "Engineering": 6,
+    "Global Security and Investigations": 5,
+    "Recruiting": 5,
+    "Mission Operations": 4,
+    "People": 4,
+    "Technical Operations": 4,
+    "Product Support": 3,
+    "Communications": 1,
+    "Core Operations": 1,
+    "Recruiting Operations": 1,
+    "Sales": 1
+  },
+  "jobs": [
+    {
+      "id": "3e59369e-1392-42f2-8d03-86648e87e963",
+      "title": "Software Engineer, Internship - Query Engines",
+      "location": "London, United Kingdom",
+      "team": "Dev",
+      "workplace": "onsite",
+      "type": "Internship",
+      "posted": "2026-10-19",
+      "url": "https://jobs.lever.co/palantir/3e59369e-1392-42f2-8d03-86648e87e963"
+    },
+    {
+      "id": "0f7d1e01-1f74-4786-944d-910208d390fa",
+      "title": "Software Engineer, New Grad - Query Engines",
+      "location": "London, United Kingdom",
+      "team": "Dev",
+      "workplace": "hybrid",
+      "type": "Full-time",
+      "posted": "2026-10-19",
+      "url": "https://jobs.lever.co/palantir/0f7d1e01-1f74-4786-944d-910208d390fa"
+    }
+  ]
+}
+PASS  Lever: list_jobs lever:palantir (299 jobs)
+
+>>> get_job {"board":"lever:palantir","job_id":"3e59369e-1392-42f2-8d03-86648e87e963"}
+<<< (501 ms)
+{
+  "board": "lever:palantir",
+  "id": "3e59369e-1392-42f2-8d03-86648e87e963",
+  "title": "Software Engineer, Internship - Query Engines",
+  "location": "London, United Kingdom",
+  "team": "Dev",
+  "employment_type": "Internship",
+  "workplace": "onsite",
+  "posted": "2026-10-19",
+  "pay_mentions": [
+    "The estimated salary range for this position is estimated to be $10,500/month. Further note that total compensation for this position will be determined by each individual’s relevant qualifications, work experience, skills, and other…"
+  ],
+  "url": "https://jobs.lever.co/palantir/3e59369e-1392-42f2-8d03-86648e87e963",
+  "apply_url": "https://jobs.lever.co/palantir/3e59369e-1392-42f2-8d03-86648e87e963/apply",
+  "description": "A World-Changing Company\n\nPalantir builds the world’s leading software for data-driven decisions and operations. By bringing the right data to the people who need it, our platforms empower our partners to develop lifesaving drugs, forecast supply chain disruptions, locate missing children, and more.\n\nThe Role\n\nWe are a software engineering team applying open-source data technologies to some of the world's hardest and most important problems. We build the data processing infrastructure that underpins Palantir Foundry, supporting applications that help hospitals care for more patients, help clinical teams coordinate timely diagnoses, and keep essential supplies moving through global disruption.\n\nYou will work deep inside the systems that make thi
+… [5333 more chars]
+PASS  Lever: get_job 3e59369e-1392-42f2-8d03-86648e87e963
+
+>>> list_jobs {"board":"ashby:linear","limit":2}
+<<< (12 ms)
+{
+  "board": "ashby:linear",
+  "careers_url": "https://jobs.ashbyhq.com/linear",
+  "data_fetched_at": "2026-10-22T19:57:29.502Z",
+  "total_jobs": 34,
+  "matched": 34,
+  "returned": 2,
+  "next_offset": 2,
+  "departments": {
+    "GTM": 19,
+    "Product": 13,
+    "Operations": 2
+  },
+  "jobs": [
+    {
+      "id": "41b3ed5c-f7a0-40b7-8a77-4952868c3d47",
+      "title": "Product Support Specialist, APAC",
+      "location": "Singapore; Australia",
+      "department": "GTM",
+      "team": "Customer Experience",
+      "workplace": "remote",
+      "type": "Full-time",
+      "posted": "2026-10-21",
+      "url": "https://jobs.ashbyhq.com/linear/41b3ed5c-f7a0-40b7-8a77-4952868c3d47"
+    },
+    {
+      "id": "aa0673c5-9e06-42f8-a720-6c2e43930c5a",
+      "title": "Product Support Specialist, APAC",
+      "location": "Australia; Singapore",
+      "department": "GTM",
+      "team": "Customer Experience",
+      "workplace": "remote",
+      "type": "Full-time",
+      "posted": "2026-10-21",
+      "url": "https://jobs.ashbyhq.com/linear/aa0673c5-9e06-42f8-a720-6c2e43930c5a"
+    }
+  ]
+}
+PASS  Ashby: list_jobs ashby:linear (34 jobs)
+
+>>> get_job {"board":"ashby:linear","job_id":"41b3ed5c-f7a0-40b7-8a77-4952868c3d47"}
+<<< (65 ms)
+{
+  "board": "ashby:linear",
+  "id": "41b3ed5c-f7a0-40b7-8a77-4952868c3d47",
+  "title": "Product Support Specialist, APAC",
+  "location": "Singapore; Australia",
+  "department": "GTM",
+  "team": "Customer Experience",
+  "employment_type": "Full-time",
+  "workplace": "remote",
+  "posted": "2026-10-21",
+  "url": "https://jobs.ashbyhq.com/linear/41b3ed5c-f7a0-40b7-8a77-4952868c3d47",
+  "apply_url": "https://jobs.ashbyhq.com/linear/41b3ed5c-f7a0-40b7-8a77-4952868c3d47/application",
+  "description": "At Linear, we're building the product development system for teams and agents. AI is fundamentally changing how software gets built, and we’re shaping the tools this new era requires.\n\nFounded in 2019, Linear has become the platform of choice for more than 40,000 companies (including OpenAI, Coinbase, and Ramp) to plan, build, and ship their products. Today, our team is distributed across North America, Europe, and Australia, and we’re continuing to grow internationally. What unites us is relentless focus, fast execution, and a deep care for software craftsmanship.\n\nOver the past years, Linear has experienced incredible organic growth and has become an instrumental tool for many of the world’s best product teams. We believe customer support should always feel like an extension of that experience. As a Product Support Specialist at Linear, you’ll contribute to the future of our product by surfacing customer feedback and insights, contributing to our technical documentation, and eng
+… [3014 more chars]
+PASS  Ashby: get_job 41b3ed5c-f7a0-40b7-8a77-4952868c3d47
+
+>>> list_jobs {"board":"workable:huggingface","limit":2}
+<<< (200 ms)
+{
+  "board": "workable:huggingface",
+  "company": "Hugging Face",
+  "careers_url": "https://apply.workable.com/huggingface/",
+  "data_fetched_at": "2026-10-22T19:57:30.967Z",
+  "total_jobs": 6,
+  "matched": 6,
+  "returned": 2,
+  "next_offset": 2,
+  "departments": {
+    "Open Source": 2,
+    "Product": 2,
+    "Science": 1,
+    "Wild Card": 1
+  },
+  "jobs": [
+    {
+      "id": "DB4D7C0EC8",
+      "title": "Senior Open-Source Python Engineer, ML Developer Tools - EMEA Remote",
+      "location": "France",
+      "department": "Product",
+      "workplace": "remote",
+      "type": "Full-time",
+      "posted": "2026-09-21",
+      "url": "https://apply.workable.com/huggingface/j/DB4D7C0EC8/"
+    },
+    {
+      "id": "F88446C814",
+      "title": "Senior Open-Source Python Engineer, ML Developer Tools - US Remote",
+      "location": "United States",
+      "department": "Product",
+      "workplace": "remote",
+      "type": "Full-time",
+      "posted": "2026-09-21",
+      "url": "https://apply.workable.com/huggingface/j/F88446C814/"
+    }
+  ]
+}
+PASS  Workable: list_jobs workable:huggingface (6 jobs)
+
+>>> get_job {"board":"workable:huggingface","job_id":"DB4D7C0EC8"}
+<<< (170 ms)
+{
+  "board": "workable:huggingface",
+  "id": "DB4D7C0EC8",
+  "title": "Senior Open-Source Python Engineer, ML Developer Tools - EMEA Remote",
+  "company": "Hugging Face",
+  "location": "France",
+  "department": "Product",
+  "employment_type": "Full-time",
+  "workplace": "remote",
+  "posted": "2026-09-21",
+  "url": "https://apply.workable.com/huggingface/j/DB4D7C0EC8/",
+  "apply_url": "https://apply.workable.com/huggingface/j/DB4D7C0EC8/apply/",
+  "description": "At Hugging Face, we're on a journey to democratize good AI. We are building the fastest growing platform for AI builders with over 11 million users who collectively shared over 4 million models, 1 million datasets & 1.5 million Gradio apps. Our open-source libraries have more than 700,000 stars on Github.\n\nAbout the Role\n\nRoles at Hugging Face are very fluid and dynamic — we are looking for someone who is comfortable taking on different challenges that will evolve over time.\n\nYou'll join the Applications team, whose goal is to build the tooling that helps developers create machine learning applications on top of the primitives we offer on the Hub: Gradio, Spaces, Inference Providers, Datasets, Xet, and more. Concretely, that means maintaining and growing libraries like Trackio, a local-first, agent-friendly experiment tracking platform, FastRTC, our library for real-time audio and video streaming in Python, and Gradio itself, used by more than 1 million developers each month. These tools have made machine learni
+… [4820 more chars]
+PASS  Workable: get_job DB4D7C0EC8
+
+Result: PASSED

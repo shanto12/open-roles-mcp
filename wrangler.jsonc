@@ -1,0 +1,31 @@
+/**
+ * Open Roles MCP: Cloudflare Workers configuration.
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "open-roles-mcp",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-04-01",
+	"compatibility_flags": ["nodejs_compat"],
+	// One Durable Object per MCP session (required by McpAgent).
+	"durable_objects": {
+		"bindings": [{ "name": "MCP_OBJECT", "class_name": "OpenRolesMCP" }]
+	},
+	"migrations": [{ "tag": "v1", "new_sqlite_classes": ["OpenRolesMCP"] }],
+	// Short-lived cache for upstream job-board responses.
+	// Placeholder id: `wrangler dev` uses local KV; before deploying, run
+	// `npx wrangler kv namespace create CACHE` and paste the returned id here.
+	"kv_namespaces": [{ "binding": "CACHE", "id": "REPLACE_WITH_KV_NAMESPACE_ID" }],
+	"vars": {
+		// Lifetime of cached job listings / job details (seconds, KV minimum is 60).
+		"CACHE_TTL_SECONDS": "600",
+		// Max outbound job-board requests per tool call. Workers Free allows 50
+		// subrequests per invocation; raise this on a paid plan if you like.
+		"MAX_UPSTREAM_REQUESTS": "40"
+	},
+	// No Workers Logs / request logging: the server collects no personal data.
+	// Static files (logo) served at /logo.png.
+	"assets": { "directory": "./public" },
+	"observability": { "enabled": false }
+}
