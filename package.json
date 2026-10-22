@@ -1,0 +1,29 @@
+{
+  "name": "open-roles-mcp",
+  "version": "0.1.0",
+  "description": "Open Roles: a free remote MCP server for live job postings from public Greenhouse, Lever, Ashby and Workable job-board APIs.",
+  "license": "MIT",
+  "author": "Shanto Mathew",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8787",
+    "start": "wrangler dev --port 8787",
+    "deploy": "wrangler deploy",
+    "cf-typegen": "wrangler types",
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "node test/e2e.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "agents": "^0.30.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "wrangler": "^4.86.0"
+  }
+}
